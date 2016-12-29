@@ -6,7 +6,7 @@ $meetup = new Meetup(array(
 ));
 
 // Needed when running locally 
-// date_default_timezone_set('Australia/Sydney');
+date_default_timezone_set('Australia/Sydney');
 
 function dateToCal($timestamp) {
 	return date('Ymd\THis', $timestamp);
@@ -59,7 +59,7 @@ $response = $meetup->getGroups(array(
     'country' => 'AU',
     'upcoming_events' => 'true',
     'location' => 'Sydney, Australia',
-    'topic_id' => '48471,17628,15582,3833,84681,79740'
+    'topic_id' => '48471,17628,15582,3833,84681,79740,21549,21441,18062'
     //'topic_id' => '79740' // Only use internet of things when testing
 ));
 

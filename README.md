@@ -15,6 +15,9 @@ I'm currently pulling in groups that cover the following topics:
 * 3833 - software development
 * 84681 - cryptography
 * 79740 - internet of things
+* 21549 - agile project management
+* 21441 - mobile development
+* 18062 - big data
 
 Still to do:
 
