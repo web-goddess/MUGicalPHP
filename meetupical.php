@@ -21,7 +21,7 @@ function removeLineBreaks($string)
 	return preg_replace("/\r|\n/", "", $string);
 }
 
-function wrapLines($string, $width=74, $break="\r\n ")
+function wrapLines($string, $width=73, $break=" \r\n ")
 {
 	$search = '/(.{1,'.$width.'})(?:\s|$)|(.{'.$width.'})/uS';
     $replace = '$1$2'.$break;
