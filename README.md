@@ -19,9 +19,11 @@ I'm currently pulling in groups that cover the following topics:
 * 21441 - mobile development
 * 18062 - big data
 
+The default city is Sydney, Australia. You can choose Melbourne or Brisbane by appending "?location=melbourne" or "?location=brisbane" to the URL.
+
 Still to do:
 
 * <strike>Generate static .ics file</strike> - Done!
-* Allow city to be configurable (currently it's hard-coded to Sydney, Australia)
+* <strike>Allow city to be configurable (currently it's hard-coded to Sydney, Australia)</strike>
 * Implement a blacklist of groups that we don't want to include
 * Figure out how to include groups that aren't on Meetup.com
