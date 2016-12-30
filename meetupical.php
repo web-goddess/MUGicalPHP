@@ -111,9 +111,19 @@ END:VEVENT";
  
 $ical .= "
 END:VCALENDAR";
- 
-header("Content-type: text/calendar; charset=utf-8");
-header("Content-Disposition: inline; filename=calendar.ics");
+
+// Write to file
+ob_start(); 
 echo $ical;
+
+$contents = ob_get_contents();
+ob_end_clean();
+$cwd = getcwd();
+$file = "$cwd" .'/'. "sydneymugs.ics";
+@chmod($file,0755);
+$fw = fopen($file, "w");
+fputs($fw,$contents, strlen($contents));
+fclose($fw);
+die();
 
 ?>
