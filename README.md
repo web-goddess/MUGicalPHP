@@ -21,6 +21,7 @@ I'm currently pulling in groups that cover the following topics:
 
 Still to do:
 
+* <strike>Generate static .ics file</strike> - Done!
 * Allow city to be configurable (currently it's hard-coded to Sydney, Australia)
 * Implement a blacklist of groups that we don't want to include
 * Figure out how to include groups that aren't on Meetup.com
