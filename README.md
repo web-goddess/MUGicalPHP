@@ -18,6 +18,7 @@ I'm currently pulling in groups that cover the following topics:
 * 21549 - agile project management
 * 21441 - mobile development
 * 18062 - big data
+* 15167 - cloud computing
 
 The default city is Sydney, Australia. You can choose Melbourne or Brisbane by appending "?location=melbourne" or "?location=brisbane" to the URL.
 
