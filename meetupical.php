@@ -9,24 +9,16 @@ $meetup = new Meetup(array(
 $input_location = filter_input(INPUT_GET, 'location', FILTER_SANITIZE_SPECIAL_CHARS);
 
 switch ($input_location) {
-	case "melbourne":
-		$ical_name = "Melbourne";
-		$ical_timezone ="TZID:Australia/Melbourne
-X-LIC-LOCATION:Australia/Melbourne
+	case "brisbane":
+		$ical_name = "Brisbane";
+		$ical_timezone ="TZID:Australia/Brisbane
+X-LIC-LOCATION:Australia/Brisbane
 BEGIN:STANDARD
-TZOFFSETFROM:+1100
-TZOFFSETTO:+1000
-TZNAME:AEST
-DTSTART:19700405T030000
-RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
-END:STANDARD
-BEGIN:DAYLIGHT
 TZOFFSETFROM:+1000
-TZOFFSETTO:+1100
-TZNAME:AEDT
-DTSTART:19701004T020000
-RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
-END:DAYLIGHT";
+TZOFFSETTO:+1000
+TZNAME:EST
+DTSTART:19700101T000000
+END:STANDARD";
 		break;
 	case "hobart":
 		$ical_name = "Hobart";
@@ -47,14 +39,33 @@ DTSTART:19700405T020000
 RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
 END:STANDARD";
 		break;
-	case "brisbane":
-		$ical_name = "Brisbane";
-		$ical_timezone ="TZID:Australia/Brisbane
-X-LIC-LOCATION:Australia/Brisbane
+	case "melbourne":
+		$ical_name = "Melbourne";
+		$ical_timezone ="TZID:Australia/Melbourne
+X-LIC-LOCATION:Australia/Melbourne
 BEGIN:STANDARD
-TZOFFSETFROM:+1000
+TZOFFSETFROM:+1100
 TZOFFSETTO:+1000
-TZNAME:EST
+TZNAME:AEST
+DTSTART:19700405T030000
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1000
+TZOFFSETTO:+1100
+TZNAME:AEDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
+END:DAYLIGHT";
+		break;
+	case "perth":
+		$ical_name = "Perth";
+		$ical_timezone ="TZID:Australia/Perth
+X-LIC-LOCATION:Australia/Perth
+BEGIN:STANDARD
+TZOFFSETFROM:+0800
+TZOFFSETTO:+0800
+TZNAME:WST
 DTSTART:19700101T000000
 END:STANDARD";
 		break;
