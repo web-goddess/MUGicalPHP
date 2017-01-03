@@ -149,7 +149,7 @@ function getEvents($group_id,$ical_name,$meetup) {
 	{
 		$description = "";
 		if ($event->description) {
-			$description .= substr(strip_tags(removeLineBreaks($event->description)),0,250).'...\n\n';
+			$description .= substr(strip_tags(removeLineBreaks($event->name . ' - ' . $event->description)),0,250).'...\n\n';
 		}
 		$description .= "Event URL: ".$event->event_url;
 		if ($event->venue->name) {
@@ -165,7 +165,7 @@ BEGIN:VEVENT
 DTSTAMP;TZID=Australia/".$ical_name.":".dateToCal(time())."
 DTSTART;TZID=Australia/".$ical_name.":".dateToCal(($event->time)/1000)."
 DTEND;TZID=Australia/".$ical_name.":".datetoCal(($event->time + $event->duration)/1000)."
-".wrapLines(escapeString("SUMMARY:".$event->name))."
+".wrapLines(escapeString("SUMMARY:".$event->group->name))."
 ".wrapLines(escapeString("DESCRIPTION:".$description))."
 CLASS:PUBLIC
 CREATED:".dateToCal($event->created)."
