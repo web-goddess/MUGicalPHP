@@ -148,6 +148,9 @@ function getEvents($group_id,$ical_name,$meetup) {
 	foreach ($response->results as $event) 
 	{
 		$description = "";
+		if ($event->status == "cancelled") {
+			$description .= "CANCELLED! ";
+		}
 		if ($event->description) {
 			$description .= substr(strip_tags(removeLineBreaks($event->name . ' - ' . $event->description)),0,250).'...\n\n';
 		}
