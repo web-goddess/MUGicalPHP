@@ -3,7 +3,11 @@ PHP script to scrape Meetup Group events and generate an iCal feed
 
 **Goal:** Create an iCal feed of events for tech-related meetup groups in a given city.
 
-Starting point was [this handy PHP library](https://github.com/user3581488/Meetup) for interacting with the [Meetup API](https://www.meetup.com/meetup_api/). 
+**Result:** Feeds for [Sydney](http://www.krishoward.org/sydneymugs.ics), [Melbourne](http://www.krishoward.org/melbournemugs.ics), [Brisbane](http://www.krishoward.org/brisbanemugs.ics), [Perth](http://www.krishoward.org/perthmugs.ics), and [Hobart](http://www.krishoward.org/hobartmugs.ics). These get updated once a day, so feel free to subscribe in your calendar application of choice!
+
+----
+
+My starting point was [this handy PHP library](https://github.com/user3581488/Meetup) for interacting with the [Meetup API](https://www.meetup.com/meetup_api/). 
 
 There are various ways to authenticate with the Meetup API, but I've just gone with using the basic API key. (I'm only reading, and I'm only interested in public information anyway.)
 
