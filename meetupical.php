@@ -163,11 +163,16 @@ function getEvents($group_id,$ical_name,$meetup) {
 		} else {
 			$location = "TBC";
 		}
+		if ($event->duration) {
+			$duration = $event->duration;
+		} else {
+			$duration = 1080000;
+		}
 		$details .= "
 BEGIN:VEVENT
 DTSTAMP;TZID=Australia/".$ical_name.":".dateToCal(time())."
 DTSTART;TZID=Australia/".$ical_name.":".dateToCal(($event->time)/1000)."
-DTEND;TZID=Australia/".$ical_name.":".datetoCal(($event->time + $event->duration)/1000)."
+DTEND;TZID=Australia/".$ical_name.":".datetoCal(($event->time + $duration)/1000)."
 ".wrapLines(escapeString("SUMMARY:".$event->group->name))."
 ".wrapLines(escapeString("DESCRIPTION:".$description))."
 CLASS:PUBLIC
