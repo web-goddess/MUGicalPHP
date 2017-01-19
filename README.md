@@ -25,6 +25,7 @@ I'm currently pulling in groups that cover the following topics:
 * 15167 - cloud computing
 * 124668 - computer security
 * 10209 - web technology
+* 116249 - IT management
 
 The default city is Sydney, Australia. You can choose Melbourne, Brisbane, Perth, or Hobart by appending "?location=melbourne" etc. to the URL.
 
