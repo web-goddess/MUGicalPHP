@@ -89,8 +89,7 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT";
 }
 
-// Needed when running locally 
-date_default_timezone_set('Australia/Sydney');
+date_default_timezone_set('UTC');
 
 function dateToCal($timestamp) {
 	return date('Ymd\THis', $timestamp);
@@ -163,6 +162,7 @@ function getEvents($group_id,$ical_name,$meetup) {
 		} else {
 			$location = "TBC";
 		}
+		$time = $event->time + $event->utc_offset;
 		if ($event->duration) {
 			$duration = $event->duration;
 		} else {
@@ -171,8 +171,8 @@ function getEvents($group_id,$ical_name,$meetup) {
 		$details .= "
 BEGIN:VEVENT
 DTSTAMP;TZID=Australia/".$ical_name.":".dateToCal(time())."
-DTSTART;TZID=Australia/".$ical_name.":".dateToCal(($event->time)/1000)."
-DTEND;TZID=Australia/".$ical_name.":".datetoCal(($event->time + $duration)/1000)."
+DTSTART;TZID=Australia/".$ical_name.":".dateToCal(($time)/1000)."
+DTEND;TZID=Australia/".$ical_name.":".datetoCal(($time + $duration)/1000)."
 ".wrapLines(escapeString("SUMMARY:".$event->group->name))."
 ".wrapLines(escapeString("DESCRIPTION:".$description))."
 CLASS:PUBLIC
