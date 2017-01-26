@@ -166,7 +166,7 @@ function getEvents($group_id,$ical_name,$meetup) {
 		if ($event->duration) {
 			$duration = $event->duration;
 		} else {
-			$duration = 1080000;
+			$duration = 10800000;
 		}
 		$details .= "
 BEGIN:VEVENT
