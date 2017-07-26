@@ -7,6 +7,7 @@ $meetup = new Meetup(array(
 
 // get location, sanitise, and set variables
 $input_location = filter_input(INPUT_GET, 'location', FILTER_SANITIZE_SPECIAL_CHARS);
+$blocked = getBlockedGroups();
 
 switch ($input_location) {
 	case "brisbane":
@@ -113,28 +114,70 @@ function wrapLines($string, $width=73, $break="\r\n ")
 	return $wrapped;
 }
 
-$ical = "BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//YOW Conferences - ".$ical_name."//EN
-NAME:".$ical_name." Meetups
-X-WR-CALNAME:".$ical_name." Meetups
-BEGIN:VTIMEZONE
-".$ical_timezone ."
-END:VTIMEZONE";
-
-// Find groups
-$response = $meetup->getGroups(array(
-    'country' => 'AU',
-    'upcoming_events' => 'true',
-    'location' => $ical_name.', Australia',
-    'topic_id' => '48471,17628,15582,3833,84681,79740,21549,21441,18062,15167,10209,124668,116249,127567'
-    //'topic_id' => '79740' // testing
-));
-
-foreach ($response as $group) 
+function getBlockedGroups()
 {
-	$ical .= getEvents($group->id,$ical_name,$meetup);
-	//echo "group:" . $group->name . "<br>";
+  if (!file_exists(BLOCKED))
+  {
+    return [];
+  }
+  return json_decode(file_get_contents(BLOCKED));
+
+}
+
+function writeBlockedGroups($blocked)
+{
+  file_put_contents(BLOCKED, json_encode($blocked));
+}
+
+function getGroups($meetup, $ical_name){
+  return $meetup->getGroups(array(
+      'country' => 'AU',
+      'upcoming_events' => 'true',
+      'location' => $ical_name.', Australia',
+      'topic_id' => TOPICS
+      //'topic_id' => '79740' // testing
+  ));
+}
+
+function createCalendar($meetup, $ical_name, $ical_timezone, $blocked){
+  $ical = "BEGIN:VCALENDAR
+  VERSION:2.0
+  PRODID:-//YOW Conferences - ".$ical_name."//EN
+  NAME:".$ical_name." Meetups
+  X-WR-CALNAME:".$ical_name." Meetups
+  BEGIN:VTIMEZONE
+  ".$ical_timezone ."
+  END:VTIMEZONE";
+
+  // Find groups
+  $response = getGroups($meetup, $ical_name);
+
+  foreach ($response as $group)
+  {
+    if (!in_array($group->id, $blocked))
+    {
+	     $ical .= getEvents($group->id,$ical_name,$meetup);
+    }
+    else {
+      echo "Blocked " . $group->name . "\n";
+    }
+  }
+
+  $ical .= "
+  END:VCALENDAR";
+
+  // Write to file
+  ob_start();
+  echo $ical;
+
+  $contents = ob_get_contents();
+  ob_end_clean();
+  $cwd = getcwd();
+  $file = "$cwd" .'/'.strtolower($ical_name)."mugs.ics";
+  @chmod($file,0755);
+  $fw = fopen($file, "w");
+  fputs($fw,$contents, strlen($contents));
+  fclose($fw);
 }
 
 function getEvents($group_id,$ical_name,$meetup) {
@@ -144,7 +187,7 @@ function getEvents($group_id,$ical_name,$meetup) {
 	    'group_id' => $group_id
 	));
 
-	foreach ($response->results as $event) 
+	foreach ($response->results as $event)
 	{
 		$description = "";
 		if ($event->status == "cancelled") {
@@ -185,21 +228,38 @@ END:VEVENT";
 	}
 	return $details;
 }
- 
-$ical .= "
-END:VCALENDAR";
 
-// Write to file
-ob_start(); 
-echo $ical;
+$command = filter_input(INPUT_GET, 'command', FILTER_SANITIZE_SPECIAL_CHARS);
+switch ($command){
+  case "groups":
+    $groups = getGroups($meetup, $icalName);
+    echo("Groups in ". $ical_name . "\n");
 
-$contents = ob_get_contents();
-ob_end_clean();
-$cwd = getcwd();
-$file = "$cwd" .'/'.strtolower($ical_name)."mugs.ics";
-@chmod($file,0755);
-$fw = fopen($file, "w");
-fputs($fw,$contents, strlen($contents));
-fclose($fw);
+    foreach ($groups as $group)
+    {
+  	 echo $group->name . ", ". $group->id . "\n";
+    }
+
+    break;
+  case "block":
+    $group_id = filter_input(INPUT_GET, 'group', FILTER_SANITIZE_SPECIAL_CHARS);
+    echo($group_id);
+    if ($group_id != null)
+    {
+      array_push($blocked, $group_id);
+      writeBlockedGroups($blocked);
+    }
+    else
+    {
+      echo("Missing Group parameter.\n");
+    }
+    break;
+  default:
+    createCalendar($meetup, $ical_name, $ical_timezone, $blocked);
+
+}
+
+writeBlockedGroups($blocked);
+
 die();
 ?>
