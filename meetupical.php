@@ -229,7 +229,8 @@ END:VEVENT";
 	return $details;
 }
 
-switch ($argv[1]){
+$command = filter_input(INPUT_GET, 'command', FILTER_SANITIZE_SPECIAL_CHARS);
+switch ($command){
   case "groups":
     $groups = getGroups($meetup, $icalName);
     echo("Groups in ". $ical_name . "\n");
@@ -241,12 +242,17 @@ switch ($argv[1]){
 
     break;
   case "block":
-    if (count($argv) < 3) {
-      die("Missing Group id.\n");
+    $group_id = filter_input(INPUT_GET, 'group', FILTER_SANITIZE_SPECIAL_CHARS);
+    echo($group_id);
+    if ($group_id != null)
+    {
+      array_push($blocked, $group_id);
+      writeBlockedGroups($blocked);
     }
-    $group_to_block = $argv[2];
-    array_push($blocked, $group_to_block);
-    writeBlockedGroups($blocked);
+    else
+    {
+      echo("Missing Group parameter.\n");
+    }
     break;
   default:
     createCalendar($meetup, $ical_name, $ical_timezone, $blocked);
