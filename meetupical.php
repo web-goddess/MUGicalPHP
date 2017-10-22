@@ -150,11 +150,11 @@ function getEvents($group_id,$ical_name,$meetup) {
 		if ($event->status == "cancelled") {
 			$description .= "CANCELLED! ";
 		}
-		if ($event->description) {
+		if (isset($event->description) && $event->description) {
 			$description .= substr(strip_tags(removeLineBreaks($event->name . ' - ' . $event->description)),0,250).'...\n\n';
 		}
 		$description .= "Event URL: ".$event->event_url;
-		if ($event->venue->name) {
+		if (isset($event->venue) && $event->venue->name) {
 			$location = $event->venue->name;
 			if ($event->venue->address_1) {
 				$location .= " (".$event->venue->address_1.", ".$event->venue->city.", ".$event->venue->localized_country_name.")";
@@ -163,7 +163,7 @@ function getEvents($group_id,$ical_name,$meetup) {
 			$location = "TBC";
 		}
 		$time = $event->time + $event->utc_offset;
-		if ($event->duration) {
+		if (isset($event->duration) && $event->duration) {
 			$duration = $event->duration;
 		} else {
 			$duration = 10800000;

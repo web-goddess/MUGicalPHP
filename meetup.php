@@ -20,6 +20,12 @@ class Meetup
     * @const 
    */
     const ACCESS	= 'https://secure.meetup.com/oauth2/access';
+
+  /**
+    * USER_AGENT fallback user agent header
+    * @const
+   */
+    const USER_AGENT    = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
   /**
     * GET request
     * @const 
@@ -352,7 +358,10 @@ class Meetup
     	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 120);
     	curl_setopt($ch, CURLOPT_TIMEOUT, 120);
     	curl_setopt($ch, CURLOPT_HEADER, false);
-    	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+    	curl_setopt($ch, CURLOPT_USERAGENT,
+			isset($_SERVER['HTTP_USER_AGENT'])
+			? $_SERVER['HTTP_USER_AGENT']
+			: self::USER_AGENT);
     	
     	//either GET/POST/PUT/DELETE against api
     	if($action==self::GET || $action==self::DELETE)
